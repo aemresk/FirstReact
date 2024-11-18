@@ -1,0 +1,23 @@
+/* src/components/Home/Home.css */
+
+.home-container {
+    padding: 20px;
+    background-color: #e8f5e9;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .home-container h2 {
+    font-size: 2rem;
+    color: #388e3c;
+  }
+  
+  .home-container p {
+    font-size: 1.2rem;
+    color: #666;
+    margin-top: 10px;
+  }
+  

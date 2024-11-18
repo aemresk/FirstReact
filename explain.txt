@@ -1,0 +1,11 @@
+1- JSX: You see JSX in each component (e.g., <h1>To-Do List</h1>, <button onClick={() => deleteTask(task.id)}>Delete</button>). JSX allows us to write HTML-like syntax directly in JavaScript.
+
+2- Components: Each part of the app (input form, list, and list item) is broken down into components (App, TodoInput, TodoList, TodoItem). This separation keeps the code organized and makes components reusable.
+
+3- Props: TodoList receives tasks, toggleComplete, and deleteTask as props from App. TodoItem also receives props (task, toggleComplete, deleteTask) from TodoList. This shows how props are passed down from parent to child components.
+
+4- State: App manages the state for the list of tasks using useState. State changes (like adding or completing tasks) trigger re-renders, allowing us to see updated data.
+
+5- Conditional Rendering: In TodoItem, we use inline conditional rendering to apply line-through text decoration if the task is marked as complete.
+
+6- Rendering Lists: In TodoList, we use .map() to render a list of TodoItem components based on the tasks array.
