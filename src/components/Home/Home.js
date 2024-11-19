@@ -1,14 +1,43 @@
-// src/components/Home/Home.js
-import React from 'react';
-import './Home.css';  // Import the Home.css file
+import React, { useState } from 'react';
+import Modal from '../Modal/Modal';
+import TodoList from '../TodoList/TodoList';
+import './Home.css';
 
-function Home() {
+const Home = () => {
+  const [tasks, setTasks] = useState([]);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [taskInput, setTaskInput] = useState('');
+
+  const addTask = () => {
+    if (!taskInput.trim()) {
+      setModalOpen(true);
+      return;
+    }
+    const newTask = { id: Date.now(), text: taskInput, active: true };
+    setTasks([...tasks, newTask]);
+    setTaskInput(''); // Clear input field after adding
+  };
+
+  const closeModal = () => setModalOpen(false);
+
   return (
     <div className="home-container">
-      <h2>Welcome to the To-Do App</h2>
-      <p>Manage your tasks efficiently with ease.</p>
+      <div className="task-input-container">
+        <input
+          type="text"
+          placeholder="Enter your task..."
+          value={taskInput}
+          onChange={(e) => setTaskInput(e.target.value)}
+          className="task-input"
+        />
+        <button className="add-task-button" onClick={addTask}>
+          Add Task
+        </button>
+      </div>
+      {modalOpen && <Modal closeModal={closeModal} />}
+      <TodoList tasks={tasks} setTasks={setTasks} />
     </div>
   );
-}
+};
 
 export default Home;

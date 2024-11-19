@@ -1,17 +1,18 @@
-// src/index.js
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './components/App/App';  // Importing the App component from the components folder
-import reportWebVitals from './reportWebVitals';
+import App from './components/App/App';
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { BrowserRouter } from 'react-router-dom';
 
-// Rendering the App component to the root element
-const root = ReactDOM.createRoot(document.getElementById('root'));
-root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
-);
-
-// For measuring performance, you can pass a function to log results
-reportWebVitals();
+const rootElement = document.getElementById('root');
+if (rootElement) {
+  const root = ReactDOM.createRoot(rootElement);
+  root.render(
+    <Provider store={store}>
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
+    </Provider>
+  );
+}

@@ -1,0 +1,16 @@
+/* src/components/NotFound/NotFound.css */
+
+.notfound-container {
+    padding: 20px;
+    background-color: #f4f4f4;
+    border-radius: 8px;
+    max-width: 600px;
+    margin: 20px auto;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+  }
+  
+  .notfound-container h2 {
+    font-size: 2rem;
+    color: #333;
+  }

@@ -1,18 +1,18 @@
-// src/components/Modal/Modal.js
 import React from 'react';
-import './Modal.css';  // Import the Modal.css file
+import './Modal.css';
 
-function Modal({ isOpen, onClose, message }) {
-  if (!isOpen) return null;  // Don't render anything if the modal is not open
-
+const Modal = ({ closeModal }) => {
   return (
-    <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <p>{message}</p>
-        <button onClick={onClose}>Close</button>
+    <div className="modal-overlay">
+      <div className="modal">
+        <h2>Empty input</h2>
+        <p>Please add text for the task.</p>
+        <button className="close-button" onClick={closeModal}>
+          Close
+        </button>
       </div>
     </div>
   );
-}
+};
 
 export default Modal;

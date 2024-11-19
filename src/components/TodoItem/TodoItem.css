@@ -1,0 +1,44 @@
+.todo-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #fff;
+  border: 1px solid #ddd;  /* Add border */
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.todo-item.inactive {
+  background-color: #f1f1f1;  /* Grey background when inactive */
+}
+
+.task-checkbox {
+  margin-right: 10px;
+}
+
+.task-text {
+  flex-grow: 1;
+  font-size: 16px;
+  color: #333;
+}
+
+.line-through {
+  text-decoration: line-through;
+  color: #888;  /* Lighter color for inactive tasks */
+}
+
+.delete-button {
+  background-color: #e74c3c;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+  background-color: #c0392b;
+}
