@@ -1,7 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState , use } from 'react'; //useX (hooks)
 import Modal from '../Modal/Modal';
 import TodoList from '../TodoList/TodoList';
 import './Home.css';
+
+// effects -> useEffect , useLayoutEffect
+// useEffect -> apply changes after dom (data after loading)
+// useLayoutEffect -> set initial (before dom)
 
 const Home = () => {
   const [tasks, setTasks] = useState([]);
@@ -14,11 +18,13 @@ const Home = () => {
       return;
     }
     const newTask = { id: Date.now(), text: taskInput, active: true };
-    setTasks([...tasks, newTask]);
+    setTasks([...tasks, newTask]); // setTasks((prevState)=> [...prevState, newTask] ) // real time add
     setTaskInput(''); // Clear input field after adding
   };
 
   const closeModal = () => setModalOpen(false);
+
+ 
 
   return (
     <div className="home-container">

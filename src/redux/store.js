@@ -1,4 +1,10 @@
 // src/redux/store.js
+
+// prop drilling
+// zustand ( for store instead of redux, global store)
+// Key for virtual dom
+
+
 import { createStore } from 'redux';
 
 const initialState = {
