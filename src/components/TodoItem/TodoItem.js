@@ -10,6 +10,7 @@ const TodoItem = ({ task, toggleActivation, deleteTask }) => {
         onChange={() => toggleActivation(task.id)}
         className="task-checkbox"
       />
+      <span className={`priority-bullet ${task.priority}`}></span>
       <span className={`task-text ${task.done ? 'line-through' : ''}`}>
         {task.text}
       </span>

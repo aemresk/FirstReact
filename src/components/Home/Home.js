@@ -11,6 +11,7 @@ import './Home.css';
 const Home = () => {
   const [modalOpen, setModalOpen] = useState(false);
   const [taskInput, setTaskInput] = useState('');
+  const [taskPriority, setTaskPriority] = useState('medium');
 
   const { tasks, addTask } = useTaskStore();
 
@@ -19,9 +20,16 @@ const Home = () => {
       setModalOpen(true);
       return;
     }
-    const newTask = { id: Date.now(), text: taskInput, done: false };
+    const newTask = { 
+      id: Date.now(), 
+      text: taskInput, 
+      done: false,
+      priority: taskPriority
+     };
     addTask(newTask);
+
     setTaskInput('');
+    setTaskPriority('medium');
   };
 
   const closeModal = () => setModalOpen(false);
@@ -36,6 +44,18 @@ const Home = () => {
           onChange={(e) => setTaskInput(e.target.value)}
           className="task-input"
         />
+
+      <div className="select-container">
+        <select
+          value={taskPriority}
+          onChange={(e) => setTaskPriority(e.target.value)}
+        >
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+      </div>
+
         <button className="add-task-button" onClick={handleAddTask}>
           Add Task
         </button>

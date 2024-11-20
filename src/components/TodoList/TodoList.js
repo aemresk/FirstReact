@@ -6,6 +6,15 @@ import './TodoList.css';
 const TodoList = ({ tasks }) => {
   const { toggleTask, deleteTask } = useTaskStore();
 
+  const sortedTasks = tasks.sort((a, b) => {
+    if (a.done !== b.done) {
+      return a.done ? 1 : -1;
+    }
+  
+    const priorityOrder = { high: 1, medium: 2, low: 3 };
+    return priorityOrder[a.priority] - priorityOrder[b.priority];
+  });
+
   const handleToggleActivation = (taskId) => {
     toggleTask(taskId);
   };
@@ -16,8 +25,8 @@ const TodoList = ({ tasks }) => {
 
   return (
     <div className="todo-list">
-      {tasks.length > 0 ? (
-        tasks.map((task) => (
+      {sortedTasks.length > 0 ? (
+        sortedTasks.map((task) => (
           <TodoItem
             key={task.id}
             task={task}

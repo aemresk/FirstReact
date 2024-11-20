@@ -42,3 +42,23 @@
 .delete-button:hover {
   background-color: #c0392b;
 }
+
+.priority-bullet {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  margin-right: 10px;
+  display: inline-block;
+}
+
+.priority-bullet.high {
+  background-color: #FF4D4D;
+}
+
+.priority-bullet.medium {
+  background-color: #FFBF00;
+}
+
+.priority-bullet.low {
+  background-color: #4D9EFF;
+}
