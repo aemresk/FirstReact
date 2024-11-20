@@ -1,18 +1,17 @@
 import React from 'react';
 import TodoItem from '../TodoItem/TodoItem';
+import useTaskStore from '../../zustand/store';
 import './TodoList.css';
 
-const TodoList = ({ tasks, setTasks }) => {
-  const toggleActivation = (taskId) => {
-    // Toggle the active state of the task
-    setTasks(tasks.map((task) =>
-      task.id === taskId ? { ...task, active: !task.active } : task
-    ));
+const TodoList = ({ tasks }) => {
+  const { toggleTask, deleteTask } = useTaskStore();
+
+  const handleToggleActivation = (taskId) => {
+    toggleTask(taskId);
   };
 
-  const deleteTask = (taskId) => {
-    // Remove the task by filtering out the task with the given id
-    setTasks(tasks.filter((task) => task.id !== taskId));
+  const handleDeleteTask = (taskId) => {
+    deleteTask(taskId);
   };
 
   return (
@@ -22,8 +21,8 @@ const TodoList = ({ tasks, setTasks }) => {
           <TodoItem
             key={task.id}
             task={task}
-            toggleActivation={toggleActivation}
-            deleteTask={deleteTask}
+            toggleActivation={handleToggleActivation}
+            deleteTask={handleDeleteTask}
           />
         ))
       ) : (

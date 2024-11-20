@@ -1,30 +1,30 @@
-import React, { useState , use } from 'react'; //useX (hooks)
+import React, { useState } from 'react'; 
 import Modal from '../Modal/Modal';
 import TodoList from '../TodoList/TodoList';
+import useTaskStore from '../../zustand/store';
 import './Home.css';
 
-// effects -> useEffect , useLayoutEffect
-// useEffect -> apply changes after dom (data after loading)
+// effects -> useLayoutEffect, useEffect
 // useLayoutEffect -> set initial (before dom)
+// useEffect -> apply changes after dom (data after loading)
 
 const Home = () => {
-  const [tasks, setTasks] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
   const [taskInput, setTaskInput] = useState('');
 
-  const addTask = () => {
+  const { tasks, addTask } = useTaskStore();
+
+  const handleAddTask = () => {
     if (!taskInput.trim()) {
       setModalOpen(true);
       return;
     }
-    const newTask = { id: Date.now(), text: taskInput, active: true };
-    setTasks([...tasks, newTask]); // setTasks((prevState)=> [...prevState, newTask] ) // real time add
-    setTaskInput(''); // Clear input field after adding
+    const newTask = { id: Date.now(), text: taskInput, done: false };
+    addTask(newTask);
+    setTaskInput('');
   };
 
   const closeModal = () => setModalOpen(false);
-
- 
 
   return (
     <div className="home-container">
@@ -36,12 +36,12 @@ const Home = () => {
           onChange={(e) => setTaskInput(e.target.value)}
           className="task-input"
         />
-        <button className="add-task-button" onClick={addTask}>
+        <button className="add-task-button" onClick={handleAddTask}>
           Add Task
         </button>
       </div>
       {modalOpen && <Modal closeModal={closeModal} />}
-      <TodoList tasks={tasks} setTasks={setTasks} />
+      <TodoList tasks={tasks} />
     </div>
   );
 };

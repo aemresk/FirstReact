@@ -1,6 +1,5 @@
-// src/components/NotFound/NotFound.js
 import React from 'react';
-import './NotFound.css';  // Import the NotFound.css file
+import './NotFound.css';
 
 function NotFound() {
   return (

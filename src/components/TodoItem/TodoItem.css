@@ -5,13 +5,13 @@
   padding: 10px;
   margin-bottom: 10px;
   background-color: #fff;
-  border: 1px solid #ddd;  /* Add border */
+  border: 1px solid #ddd;
   border-radius: 5px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.todo-item.inactive {
-  background-color: #f1f1f1;  /* Grey background when inactive */
+.todo-item.done {
+  background-color: #f1f1f1;
 }
 
 .task-checkbox {
@@ -26,7 +26,7 @@
 
 .line-through {
   text-decoration: line-through;
-  color: #888;  /* Lighter color for inactive tasks */
+  color: #888;
 }
 
 .delete-button {

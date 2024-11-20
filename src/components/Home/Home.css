@@ -4,7 +4,7 @@
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
-  padding-top: 40px; /* Adjust for more space at the top */
+  padding-top: 40px;
   position: relative;
 }
 
@@ -13,11 +13,11 @@
   align-items: center;
   gap: 10px;
   position: absolute;
-  top: 20px; /* Adjust for distance from top of page */
+  top: 20px;
 }
 
 .task-input {
-  width: 250px; /* Adjust width as needed */
+  width: 250px;
   padding: 10px;
   font-size: 16px;
   border: 1px solid #ddd;
