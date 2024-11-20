@@ -1,10 +1,9 @@
 import React from 'react';
 import { Route, Routes } from 'react-router-dom';
-import Header from '../Header/Header';
-import Home from '../Home/Home';
-import About from '../About/About';
-import NotFound from '../NotFound/NotFound';
-import './App.css';
+import Header from './Header';
+import Home from './Home/Home';
+import About from './About';
+import NotFound from './NotFound';
 
 const App = () => {
   return (

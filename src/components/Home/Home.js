@@ -1,5 +1,5 @@
 import React, { useState } from 'react'; 
-import Modal from '../Modal/Modal';
+import Modal from '../TaskEmptyModal';
 import TodoList from '../TodoList/TodoList';
 import useTaskStore from '../../zustand/store';
 import './Home.css';
