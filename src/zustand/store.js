@@ -13,16 +13,21 @@ import { create } from 'zustand';
 
 const API_BASE_URL = "http://localhost:5079";
 
-const useTaskStore = create((set) => ({
+const useTaskStore = create((set, get) => ({
   tasks: [],
   loading: false,
+  pageNumber: 1, 
+  pageSize: 10,
+  totalCount: 0,
 
   fetchTasks: async () => {
     set({ loading: true });
+    const { pageNumber, pageSize } = get();
+
     try {
-      const response = await fetch(`${API_BASE_URL}/tasks`);
-      const tasks = await response.json();
-      set({ tasks, loading: false });
+      const response = await fetch(`${API_BASE_URL}/tasks?pageNumber=${pageNumber}&pageSize=${pageSize}`);
+      const result = await response.json();
+      set({ tasks: result.tasks, totalCount: result.totalCount, loading: false });
     } catch (error) {
       console.error("Error fetching tasks:", error);
       set({ loading: false });
@@ -77,6 +82,12 @@ const useTaskStore = create((set) => ({
       console.error("Error toggling task:", error);
       set({ loading: false });
     }
+  },
+
+  setPage: (newPageNumber) => {
+    console.log("Setting page");
+    set({ pageNumber: newPageNumber });
+    set().fetchTasks();
   },
 }));
 

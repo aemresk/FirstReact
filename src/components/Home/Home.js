@@ -9,7 +9,20 @@ const Home = () => {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
 
-  const { tasks, fetchTasks, addTask, deleteTask, toggleTask, loading } = useTaskStore();
+  const { 
+    tasks, 
+    fetchTasks, 
+    addTask, 
+    deleteTask, 
+    toggleTask, 
+    setPage, 
+    loading, 
+    totalCount, 
+    pageNumber, 
+    pageSize 
+  } = useTaskStore();
+
+  const totalPages = Math.ceil(totalCount / pageSize);
 
   const priorityMapping = {
     high: 0,
@@ -19,7 +32,7 @@ const Home = () => {
 
   useEffect(() => {
     fetchTasks();
-  }, [fetchTasks]);
+  }, [fetchTasks, pageNumber]);
 
   const handleAddTask = () => {
     if (!taskTitle.trim()) {
@@ -54,6 +67,12 @@ const Home = () => {
 
   const closeModal = () => setModalOpen(false);
 
+  const handlePageChange = (page) => {
+    if (page >= 1 && page <= totalPages) {
+      setPage(page);
+    }
+  };
+
   return (
     <div className="home-container">
       <div className="task-input-container">
@@ -82,17 +101,36 @@ const Home = () => {
       </div>
 
       {modalOpen && <Modal closeModal={closeModal} />}
-      
+
       {loading ? (
         <div className="loading-spinner-container">
           <div className="loading-spinner"></div>
         </div>
       ) : (
-        <TodoList 
-          tasks={tasks} 
-          handleDeleteTask={handleDeleteTask} 
-          handleToggleTask={handleToggleTask} 
-        />
+        <>
+          <TodoList
+            tasks={tasks}
+            handleDeleteTask={handleDeleteTask}
+            handleToggleTask={handleToggleTask}
+          />
+
+          {}
+          <div className="pagination">
+            <button
+              onClick={() => handlePageChange(pageNumber - 1)}
+              disabled={pageNumber <= 1}
+            >
+              Previous
+            </button>
+            <span>Page {pageNumber} of {totalPages}</span>
+            <button
+              onClick={() => handlePageChange(pageNumber + 1)}
+              disabled={pageNumber >= totalPages}
+            >
+              Next
+            </button>
+          </div>
+        </>
       )}
     </div>
   );
