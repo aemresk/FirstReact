@@ -1,18 +1,24 @@
 import React from 'react';
 import './TodoItem.css';
 
-const TodoItem = ({ task, toggleActivation, deleteTask }) => {
+const TodoItem = ({ task, deleteTask, toggleTask }) => {
+  const priorityMapping = {
+    0: 'high',
+    1: 'medium',
+    2: 'low',
+  };
+
   return (
-    <div className={`todo-item ${task.done ? 'done' : ''}`}>
+    <div className={`todo-item ${task.isDone ? 'done' : ''}`}>
       <input
         type="checkbox"
-        checked={task.done}
-        onChange={() => toggleActivation(task.id)}
+        checked={task.isDone}
+        onChange={() => toggleTask(task.id)}
         className="task-checkbox"
       />
-      <span className={`priority-bullet ${task.priority}`}></span>
-      <span className={`task-text ${task.done ? 'line-through' : ''}`}>
-        {task.text}
+      <span className={`priority-bullet ${priorityMapping[task.priority]}`}></span>
+      <span className={`task-text ${task.isDone ? 'line-through' : ''}`}>
+        {task.title}
       </span>
       <button onClick={() => deleteTask(task.id)} className="delete-button">
         Delete

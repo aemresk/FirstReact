@@ -10,38 +10,71 @@ Advantages of Zustand:
 */
 
 import { create } from 'zustand';
-import { persist } from 'zustand/middleware';
 
-// Use prevState instead of simply setState to ensure using latest state [be thread safe].
-const useTaskStore = create(
-  persist(
-    (set) => ({
-      tasks: [],
-      
-      addTask: (task) =>
-        set((prevState) => ({
-          tasks: [task, ...prevState.tasks],
-        })),
+const API_BASE_URL = "http://localhost:5079";
 
-      deleteTask: (id) =>
-        set((prevState) => ({
-          tasks: prevState.tasks.filter((task) => task.id !== id),
-        })),
+const useTaskStore = create((set) => ({
+  tasks: [],
 
-      toggleTask: (id) =>
-        set((prevState) => ({
-          tasks: prevState.tasks.map((task) =>
-            task.id === id
-              ? { ...task, done: !task.done }
-              : task
-          ),
-        })),
-    }),
-    {
-      name: 'tasks-storage', // The name of the localStorage key
-      getStorage: () => localStorage, // Can use sessionStorage as well
+  fetchTasks: async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/tasks`);
+      const tasks = await response.json();
+      set({ tasks });
+    } catch (error) {
+      console.error("Error fetching tasks:", error);
     }
-  )
-);
+  },
+
+  addTask: async (task) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/tasks`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(task),
+      });
+      if (!response.ok) throw new Error('Failed to add task');
+      await response.json();
+      set(() => {
+        return { tasks: [] };
+      });
+      await set.fetchTasks();
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
+  },
+
+  deleteTask: async (id) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete task');
+      await response.json();
+      set(() => {
+        return { tasks: [] };
+      });
+      await set.fetchTasks();
+    } catch (error) {
+      console.error("Error deleting task:", error);
+    }
+  },
+
+  toggleTask: async (id) => {
+    try {      
+      const response = await fetch(`${API_BASE_URL}/tasks/${id}`, {
+        method: 'PATCH',
+      });
+      if (!response.ok) throw new Error('Failed to toggle task');
+      await response.json();
+      set(() => {
+        return { tasks: [] };
+      });
+      await set.fetchTasks();
+    } catch (error) {
+      console.error("Error toggling task:", error);
+    }
+  },
+}));
 
 export default useTaskStore;
