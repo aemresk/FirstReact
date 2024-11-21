@@ -9,7 +9,7 @@ const Home = () => {
   const [taskTitle, setTaskTitle] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
 
-  const { tasks, fetchTasks, addTask, deleteTask, toggleTask } = useTaskStore();
+  const { tasks, fetchTasks, addTask, deleteTask, toggleTask, loading } = useTaskStore();
 
   const priorityMapping = {
     high: 0,
@@ -80,12 +80,20 @@ const Home = () => {
           Add Task
         </button>
       </div>
+
       {modalOpen && <Modal closeModal={closeModal} />}
-      <TodoList 
-        tasks={tasks} 
-        handleDeleteTask={handleDeleteTask} 
-        handleToggleTask={handleToggleTask} 
-      />
+      
+      {loading ? (
+        <div className="loading-spinner-container">
+          <div className="loading-spinner"></div>
+        </div>
+      ) : (
+        <TodoList 
+          tasks={tasks} 
+          handleDeleteTask={handleDeleteTask} 
+          handleToggleTask={handleToggleTask} 
+        />
+      )}
     </div>
   );
 };
