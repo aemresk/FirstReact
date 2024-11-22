@@ -1,76 +1,38 @@
 import React, { useState, useEffect } from "react";
-import Modal from "../TaskEmptyModal";
 import TodoList from "../TodoList/TodoList";
 import useTaskStore from "../../zustand/store";
 import "./Home.css";
 
 const Home = () => {
-  const [modalOpen, setModalOpen] = useState(false);
   const [taskTitle, setTaskTitle] = useState("");
   const [taskPriority, setTaskPriority] = useState("medium");
 
-  const { 
-    tasks, 
-    fetchTasks, 
-    addTask, 
-    deleteTask, 
-    toggleTask, 
-    setPage, 
-    loading, 
-    totalCount, 
-    pageNumber, 
-    pageSize 
-  } = useTaskStore();
-
-  const totalPages = Math.ceil(totalCount / pageSize);
-
-  const priorityMapping = {
-    high: 0,
-    medium: 1,
-    low: 2,
-  };
+  const { tasks, fetchTasks, addTask, loading } = useTaskStore();
 
   useEffect(() => {
     fetchTasks();
-  }, [fetchTasks, pageNumber]);
+  }, [fetchTasks]);
 
-  const handleAddTask = () => {
+  const handleAddTask = async () => {
     if (!taskTitle.trim()) {
-      setModalOpen(true);
+      alert("Task title cannot be empty");
       return;
     }
 
     const newTask = {
       title: taskTitle,
-      priority: priorityMapping[taskPriority],
+      priority: taskPriority,
     };
 
-    addTask(newTask).then(() => {
-      fetchTasks();
-    });
+    try {
+      await addTask(newTask);
+      console.log("Task successfully added:", newTask);
+    } catch (error) {
+      console.error("Error adding task:", error);
+    }
 
     setTaskTitle("");
     setTaskPriority("medium");
-  };
-
-  const handleDeleteTask = (taskId) => {
-    deleteTask(taskId).then(() => {
-      fetchTasks();
-    });
-  };
-
-  const handleToggleTask = (taskId) => {
-    toggleTask(taskId).then(() => {
-      fetchTasks();
-    });
-  };
-
-  const closeModal = () => setModalOpen(false);
-
-  const handlePageChange = (page) => {
-    if (page >= 1 && page <= totalPages) {
-      setPage(page);
-    }
   };
 
   return (
@@ -83,54 +45,22 @@ const Home = () => {
           onChange={(e) => setTaskTitle(e.target.value)}
           className="task-input"
         />
-
-        <div className="select-container">
-          <select
-            value={taskPriority}
-            onChange={(e) => setTaskPriority(e.target.value)}
-          >
-            <option value="high">High</option>
-            <option value="medium">Medium</option>
-            <option value="low">Low</option>
-          </select>
-        </div>
-
-        <button className="add-task-button" onClick={handleAddTask}>
+        <select
+          value={taskPriority}
+          onChange={(e) => setTaskPriority(e.target.value)}
+        >
+          <option value="high">High</option>
+          <option value="medium">Medium</option>
+          <option value="low">Low</option>
+        </select>
+        <button onClick={handleAddTask} className="add-task-button">
           Add Task
         </button>
       </div>
-
-      {modalOpen && <Modal closeModal={closeModal} />}
-
       {loading ? (
-        <div className="loading-spinner-container">
-          <div className="loading-spinner"></div>
-        </div>
+        <p>Loading tasks...</p>
       ) : (
-        <>
-          <TodoList
-            tasks={tasks}
-            handleDeleteTask={handleDeleteTask}
-            handleToggleTask={handleToggleTask}
-          />
-
-          {}
-          <div className="pagination">
-            <button
-              onClick={() => handlePageChange(pageNumber - 1)}
-              disabled={pageNumber <= 1}
-            >
-              Previous
-            </button>
-            <span>Page {pageNumber} of {totalPages}</span>
-            <button
-              onClick={() => handlePageChange(pageNumber + 1)}
-              disabled={pageNumber >= totalPages}
-            >
-              Next
-            </button>
-          </div>
-        </>
+        <TodoList tasks={tasks} />
       )}
     </div>
   );
